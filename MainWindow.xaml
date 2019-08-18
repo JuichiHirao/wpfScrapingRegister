@@ -74,7 +74,7 @@
             </Grid>
             <Grid Grid.Row="1">
                 <DataGrid HeadersVisibility="Row"  Name="dgridJav" AutoGenerateColumns="False"
-                              Height="Auto" Margin="5,1,5,5" Panel.ZIndex="1" Opacity="0.6"
+                              Height="Auto" Margin="5,1,0,0" Panel.ZIndex="1" Opacity="0.6"
                               HorizontalAlignment="Left" VerticalAlignment="Top" GridLinesVisibility="Horizontal"
                               CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="dgridJav_SelectionChanged">
                     <!-- SelectionChanged="dgridMovieFilesItem_SelectionChanged" PreviewKeyDown="OnContentsDataGridKeyDown" 
@@ -115,7 +115,7 @@
                 </DataGrid>
 
                 <DataGrid HeadersVisibility="Row"  Name="dgridBj" AutoGenerateColumns="False"
-                              Height="Auto" Margin="5,1,5,5" Panel.ZIndex="1" Opacity="0.6"
+                              Height="Auto" Margin="5,1,0,0" Panel.ZIndex="1" Opacity="0.6"
                               HorizontalAlignment="Left" VerticalAlignment="Top" GridLinesVisibility="Horizontal"
                               CanUserAddRows="False" CanUserDeleteRows="False" SelectionChanged="dgridBj_SelectionChanged">
                     <DataGrid.ContextMenu>

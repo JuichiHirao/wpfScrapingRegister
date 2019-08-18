@@ -17,7 +17,7 @@ namespace wpfScrapingRegister.dao
 
             MySqlCommand command =
                 new MySqlCommand(
-                    "SELECT id, title, post_date, thumbnails, thumbnails_count, download_link, url, posted_in, is_selection, is_downloads FROM bj WHERE is_selection = 0 ORDER BY post_date",
+                    "SELECT id, title, post_date, thumbnails, thumbnails_count, download_link, url, posted_in, is_selection, is_downloads FROM bj ORDER BY post_date",
                     cn);
             MySqlDataReader reader = command.ExecuteReader();
 

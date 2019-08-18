@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 using wpfScrapingRegister.collection;
 using wpfScrapingRegister.dao;
 using wpfScrapingRegister.data;
-
+using WpfScrapingRegister.collection;
 
 namespace wpfScrapingRegister
 {
@@ -37,6 +37,7 @@ namespace wpfScrapingRegister
         private JavCollection colJavCheck;
         private JavData dispinfoSelectJavCheck = null;
 
+        private BjCollection colBj;
         private BjData dispinfoSelectBjData = null;
         private BjDao bjDao = null;
 
@@ -70,7 +71,9 @@ namespace wpfScrapingRegister
                 colJavCheck = new JavCollection(javDao.GetList());
                 dgridJavCheck.ItemsSource = colJavCheck.collecion;
 
-                dgridBj.ItemsSource = bjDao.GetList();
+                colBj = new BjCollection(bjDao.GetList());
+                dgridBj.ItemsSource = colBj.collecion;
+
                 colJav2 = new Jav2Collection(jav2Dao.GetList());
                 dgridJav2.ItemsSource = colJav2.collecion;
 
@@ -299,6 +302,9 @@ namespace wpfScrapingRegister
         {
             dispinfoSelectBjData = (BjData)dgridBj.SelectedItem;
 
+            if (dispinfoSelectBjData == null)
+                return;
+
             string[] arrThumbnail = dispinfoSelectBjData.Thumbnails.Split(' ');
             List<string> arrPathname = new List<string>();
             foreach (string thumbnail in arrThumbnail)
@@ -452,14 +458,30 @@ namespace wpfScrapingRegister
 
         private void btnSearchJav_Click(object sender, RoutedEventArgs e)
         {
-            colJav.SetSearchText(txtSearchJav.Text);
-            colJav.Execute();
+            if (dispctrlDataGrid == DATAGRID_JAV)
+            {
+                colJav.SetSearchText(txtSearchJav.Text);
+                colJav.Execute();
+            }
+            else
+            {
+                colBj.SetSearchText(txtSearchJav.Text);
+                colBj.Execute();
+            }
         }
 
         private void btnSearchJavCancel_Click(object sender, RoutedEventArgs e)
         {
-            colJav.SetSearchText("");
-            colJav.Execute();
+            if (dispctrlDataGrid == DATAGRID_JAV)
+            {
+                colJav.SetSearchText("");
+                colJav.Execute();
+            }
+            else
+            {
+                colBj.SetSearchText("");
+                colBj.Execute();
+            }
         }
 
         private void OnClickFilterSelection(object sender, RoutedEventArgs e)
@@ -471,16 +493,33 @@ namespace wpfScrapingRegister
 
             string contentButton = button.Content.ToString();
 
-            int isSelection = -9;
-            if (contentButton.Equals("未"))
-                isSelection = 0;
-            else if (contentButton.Equals("対象"))
-                isSelection = IS_SELECTION_TARGET;
-            else if (contentButton.Equals("HD"))
-                isSelection = IS_SELECTION_WAITING_HD;
+            if (dispctrlDataGrid == DATAGRID_JAV)
+            {
+                int isSelection = -9;
+                if (contentButton.Equals("未"))
+                    isSelection = 0;
+                else if (contentButton.Equals("対象"))
+                    isSelection = IS_SELECTION_TARGET;
+                else if (contentButton.Equals("HD"))
+                    isSelection = IS_SELECTION_WAITING_HD;
 
-            colJav.SetSearchSelection(isSelection);
-            colJav.Execute();
+                colJav.SetSearchSelection(isSelection);
+                colJav.Execute();
+            }
+            else
+            {
+                int isSelection = -9;
+                if (contentButton.Equals("未"))
+                    isSelection = 0;
+                else if (contentButton.Equals("対象"))
+                    isSelection = IS_SELECTION_TARGET;
+                else if (contentButton.Equals("HD"))
+                    isSelection = IS_SELECTION_WAITING_HD;
+
+                colBj.SetSearchSelection(isSelection);
+                colBj.Execute();
+
+            }
         }
 
         private void dgridFiles_SelectionChanged(object sender, SelectionChangedEventArgs e)

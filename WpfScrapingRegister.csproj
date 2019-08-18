@@ -75,6 +75,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="collection\BjCollection.cs" />
     <Compile Include="collection\FileCollection.cs" />
     <Compile Include="collection\Jav2Collection.cs" />
     <Compile Include="collection\JavCollection.cs" />
