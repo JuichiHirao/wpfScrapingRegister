@@ -58,7 +58,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60" />
                     <ColumnDefinition Width="270" />
-                    <ColumnDefinition Width="180" />
+                    <ColumnDefinition Width="230" />
                     <ColumnDefinition Width="80" />
                 </Grid.ColumnDefinitions>
                 <Button Name="btnSwitch" Content="Switch" Width="50" Margin="3,3,3,3" HorizontalAlignment="Left" Click="btnSwitch_Click" />
@@ -68,6 +68,7 @@
                 <Button Name="btnFilterNoTarget" Content="未" Width="50" Margin="5,5,5,5" HorizontalAlignment="Left" Grid.Column="2" Click="OnClickFilterSelection" />
                 <Button Name="btnFilterTarget" Content="対象" Width="50" Margin="60,5,5,5" HorizontalAlignment="Left" Grid.Column="2" Click="OnClickFilterSelection" />
                 <Button Name="btnFilterHd" Content="HD" Width="50" Margin="110,5,5,5" HorizontalAlignment="Left" Grid.Column="2" Click="OnClickFilterSelection" />
+                <Button Name="btnFilterDone" Content="済" Width="50" Margin="160,5,5,5" HorizontalAlignment="Left" Grid.Column="2" Click="OnClickFilterSelection" />
                 <ComboBox Name="cmbLargeRating"
                           SelectedValue="{Binding Path=Rating}" ItemsSource="{StaticResource intCollection}"
                           Margin="5,3,3,5" FontSize="24" Grid.Column="3" SelectionChanged="OnChangedRating" />
@@ -85,6 +86,7 @@
                             <MenuItem Header="対象" Click="OnClickMenuitemSelectTarget" />
                             <MenuItem Header="対象COPY" Click="OnClickMenuitemSelectTarget" />
                             <MenuItem Header="HD待ち" Click="OnClickMenuitemSelectTarget" />
+                            <MenuItem Header="初期値0" Click="OnClickMenuitemSelectTarget" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                     <DataGrid.Columns>
@@ -122,6 +124,8 @@
                         <ContextMenu>
                             <MenuItem Header="対象外" Click="OnClickMenuitemSelectTarget" />
                             <MenuItem Header="対象COPY" Click="OnClickMenuitemSelectTarget" />
+                            <MenuItem Header="対象" Click="OnClickMenuitemSelectTarget" />
+                            <MenuItem Header="初期値0" Click="OnClickMenuitemSelectTarget" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                     <DataGrid.Columns>

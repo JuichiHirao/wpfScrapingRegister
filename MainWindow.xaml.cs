@@ -21,10 +21,12 @@ namespace wpfScrapingRegister
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const int IS_SELECTION_DEFAULT = 0;
         private const int IS_SELECTION_NOT_TARGET = -1;
         private const int IS_SELECTION_TARGET = 1;
         private const int IS_SELECTION_TARGETCOPY = 2;
         private const int IS_SELECTION_WAITING_HD = 3;
+        private const int IS_SELECTION_DONE = 9;
 
         private const int DATAGRID_JAV = 1;
         private const int DATAGRID_BJ = 2;
@@ -258,6 +260,8 @@ namespace wpfScrapingRegister
             {
                 isSelection = IS_SELECTION_WAITING_HD;
             }
+            else if (menuitemHeader.Equals("初期値0"))
+                isSelection = IS_SELECTION_DEFAULT;
 
             return (isSelection, isCopy);
         }
@@ -493,32 +497,25 @@ namespace wpfScrapingRegister
 
             string contentButton = button.Content.ToString();
 
+            int isSelection = -9;
+            if (contentButton.Equals("未"))
+                isSelection = 0;
+            else if (contentButton.Equals("対象"))
+                isSelection = IS_SELECTION_TARGET;
+            else if (contentButton.Equals("HD"))
+                isSelection = IS_SELECTION_WAITING_HD;
+            else if (contentButton.Equals("済"))
+                isSelection = IS_SELECTION_DONE;
+
             if (dispctrlDataGrid == DATAGRID_JAV)
             {
-                int isSelection = -9;
-                if (contentButton.Equals("未"))
-                    isSelection = 0;
-                else if (contentButton.Equals("対象"))
-                    isSelection = IS_SELECTION_TARGET;
-                else if (contentButton.Equals("HD"))
-                    isSelection = IS_SELECTION_WAITING_HD;
-
                 colJav.SetSearchSelection(isSelection);
                 colJav.Execute();
             }
             else
             {
-                int isSelection = -9;
-                if (contentButton.Equals("未"))
-                    isSelection = 0;
-                else if (contentButton.Equals("対象"))
-                    isSelection = IS_SELECTION_TARGET;
-                else if (contentButton.Equals("HD"))
-                    isSelection = IS_SELECTION_WAITING_HD;
-
                 colBj.SetSearchSelection(isSelection);
                 colBj.Execute();
-
             }
         }
 

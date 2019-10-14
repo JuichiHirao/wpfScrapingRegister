@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,20 +67,22 @@ namespace WpfScrapingRegister.collection
 
                 if (IsFilterFreeWords)
                 {
-                    if (IsFilterFreeWords)
-                    {
-                        bool r = false;
-                        if (arrSearchText == null)
-                            return true;
+                    bool r = false;
+                    if (arrSearchText == null)
+                        return true;
 
-                        foreach (string s in arrSearchText)
+                    foreach (string s in arrSearchText)
+                    {
+                        if (data.Title.IndexOf(s, StringComparison.OrdinalIgnoreCase) >= 0
+                            || data.DownloadLink.IndexOf(s, StringComparison.OrdinalIgnoreCase) >= 0)
                         {
-                            if (data.Title.IndexOf(s, StringComparison.OrdinalIgnoreCase) >= 0)
-                                r = true;
+                            Debug.Print("[" + s + "] " + data.Title + "");
+                            r = true;
                         }
-                        if (r == false)
-                            return r;
                     }
+
+                    if (r == false)
+                        return r;
                 }
 
                 if (SearchIsSelectino != -9)
