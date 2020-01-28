@@ -256,8 +256,8 @@
                                             <ColumnDefinition Width="50" />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding Path=IsSelection}" TextAlignment="Center" />
-                                        <TextBlock Text="{Binding Path=Title}" TextWrapping="Wrap" TextAlignment="Left" Grid.Column="1" />
+                                        <TextBlock Name="IsSelection" Text="{Binding Path=IsSelection}" TextAlignment="Center" />
+                                        <TextBlock Name="Title" Text="{Binding Path=Title}" TextWrapping="Wrap" TextAlignment="Left" Grid.Column="1" />
                                     </Grid>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>

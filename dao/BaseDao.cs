@@ -16,6 +16,12 @@ namespace wpfScrapingRegister.dao
         }
         protected MySqlConnection cn = null;
 
+        public static string DockerDatabase = "av";
+        public static string DockerDataSource = "127.0.0.1";
+        public static string DockerPort = "43306";
+        public static string DockerUser = "root";
+        public static string DockerPassword = "mysql";
+
         public BaseDao()
         {
             string target = "mysql";
@@ -44,5 +50,12 @@ namespace wpfScrapingRegister.dao
             String connectionInfo = "Database=" + database + "; Data Source=" + datasource + ";User Id=" + user + "; Password=" + password;
             cn = new MySqlConnection(connectionInfo);
         }
+
+        public BaseDao(string myDatabase, string myDataSource, string myPort, string myUser, string myPassword)
+        {
+            String connectionInfo = "Database=" + myDatabase + "; Data Source=" + myDataSource + "; port=" + myPort + "; User Id=" + myUser + "; Password=" + myPassword + "; ConnectionTimeout=600; DefaultCommandTimeout=600";
+            cn = new MySqlConnection(connectionInfo);
+        }
+
     }
 }

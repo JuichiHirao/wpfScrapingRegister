@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -12,6 +13,8 @@ using wpfScrapingRegister.collection;
 using wpfScrapingRegister.dao;
 using wpfScrapingRegister.data;
 using WpfScrapingRegister.collection;
+using WpfScrapingRegister.common;
+using WpfScrapingRegister.dao;
 
 namespace wpfScrapingRegister
 {
@@ -53,6 +56,8 @@ namespace wpfScrapingRegister
 
         private string ImagePath = "";
 
+        private MySqlDbConnection dockerMySqlConn = null;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -62,6 +67,8 @@ namespace wpfScrapingRegister
         {
             try
             {
+                dockerMySqlConn = new MySqlDbConnection(0);
+
                 javDao = new JavDao();
                 jav2Dao = new Jav2Dao();
                 bjDao = new BjDao();
@@ -219,6 +226,23 @@ namespace wpfScrapingRegister
             txtStatusBarId.Text = Convert.ToString(dispinfoSelectJavData.Id);
 
             txtDownloadLinks.Text = dispinfoSelectJavData.DownloadLinks;
+
+            if (txtRegisterActress.Text.Length > 0)
+            {
+                AvContentsDao contentsDao = new AvContentsDao();
+                try
+                {
+                    txtStatusBar.Text = Actress.GetEvaluation(txtRegisterActress.Text, contentsDao, dockerMySqlConn);
+                }
+                catch (MySqlException emysql)
+                {
+                    txtStatusBar.Text = emysql.Message;
+                }
+                catch (Exception ex)
+                {
+                    txtStatusBar.Text = "exception " + ex.Message;
+                }
+            }
         }
 
         public BitmapImage GetImageStream(string myImagePathname)
@@ -299,6 +323,7 @@ namespace wpfScrapingRegister
 
             javDao.UpdateIsSelection(resultTuple.isSelection, dispinfoSelectJavCheck.Id);
 
+            dispinfoSelectJavCheck.IsSelection = resultTuple.isSelection;
             colJav.SetDataIsSelection(dispinfoSelectJavCheck.Id, resultTuple.isSelection);
         }
 
