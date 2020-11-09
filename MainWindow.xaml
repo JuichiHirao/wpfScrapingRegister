@@ -183,7 +183,11 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <Button Name="btnUpdateJav" Content="更新" Width="50" Click="btnUpdateJav_Click" />
+                        <WrapPanel Orientation="Horizontal">
+                            <Button Name="btnUpdateJav" Content="更新" Width="50" Margin="5,3,3,3" Click="btnUpdateJav_Click" />
+                            <Button Name="btnJumpUrl" Content="URL" Width="50"  Margin="3,3,5,3" Click="btnJumpUrl_Click" />
+                            <Button Name="btnPaste" Content="Paste" Width="30"  Margin="3,3,5,3" Click="btnPaste_Click" />
+                        </WrapPanel>
                         <TextBox Name="txtRegisterProductNumber" Grid.Row="1"/>
                         <TextBox Name="txtRegisterActress" Grid.Row="2"/>
                         <TextBox Name="txtRegisterSellDate" Grid.Row="3"/>
@@ -273,6 +277,7 @@
                 <WrapPanel Orientation="Horizontal">
                     <TextBox Name="txtJav2Search" Width="180" Margin="3,3,3,3" TextWrapping="Wrap" />
                     <Button Name="btnJav2Search" Content="検索" Width="50" Margin="3,3,3,3" Click="btnJav2Search_Click"/>
+                    <Button Name="btnJav2Url" Content="URL" Width="50" Margin="3,3,3,3" Click="btnJav2Url_Click" />
                 </WrapPanel>
                 <DataGrid HeadersVisibility="Row"  Name="dgridJav2" AutoGenerateColumns="False"
                               Height="Auto" Margin="5,1,5,5" Panel.ZIndex="1" Opacity="0.6"

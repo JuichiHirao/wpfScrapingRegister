@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -108,11 +109,12 @@ namespace WpfScrapingRegister.common
             string maxActress = "";
             foreach (string actress in arrActresses)
             {
+                Debug.Print("GetEvaluation [" + actress + "]");
                 string[] arrFavActress = contentsService.GetFavoriteActresses(actress, dockerMysqlConn);
 
                 List<AvContentsData> avContentsList = new List<AvContentsData>();
                 List<AvContentsData> avContentsFilenameLikeList = new List<AvContentsData>();
-                if (arrFavActress.Length >= 1)
+                if (arrFavActress != null && arrFavActress.Length >= 1)
                 {
                     isFav = true;
                     foreach (string favActress in arrFavActress)

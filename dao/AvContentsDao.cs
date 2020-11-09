@@ -15,6 +15,9 @@ namespace WpfScrapingRegister.dao
     {
         public string[] GetFavoriteActresses(string myActress, MySqlDbConnection myDbCon)
         {
+            if (String.IsNullOrEmpty(myActress))
+                return null;
+
             if (myDbCon == null)
                 // string myDatabase, string myDataSource, string myPort, string myUser, string myPassword
                 myDbCon = new MySqlDbConnection(MySqlDbConnection.DockerDatabase, MySqlDbConnection.DockerDataSource
@@ -102,6 +105,9 @@ namespace WpfScrapingRegister.dao
 
         public List<AvContentsData> GetActressList(string myTag, MySqlDbConnection myDbCon)
         {
+            if (String.IsNullOrEmpty(myTag))
+                return new List<AvContentsData>();
+
             List<AvContentsData> avContentsList = new List<AvContentsData>();
             string queryString = "SELECT id, tag, rating FROM av.contents WHERE tag like @Tag ";
 

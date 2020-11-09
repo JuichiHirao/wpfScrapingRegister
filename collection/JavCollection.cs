@@ -25,6 +25,18 @@ namespace wpfScrapingRegister.collection
             collecion.SortDescriptions.Add(new SortDescription("PostDate", ListSortDirection.Ascending));
         }
 
+        public int GetIsSelectionZero()
+        {
+            int cnt = 0;
+            foreach (JavData data in listContents)
+            {
+                if (data.IsSelection == 0)
+                    cnt++;
+            }
+
+            return cnt;
+        }
+
         public void SetDataIsSelection(int myId, int myIsSelection)
         {
             foreach (JavData jav in listContents)

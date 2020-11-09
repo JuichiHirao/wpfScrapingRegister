@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,6 +42,7 @@ namespace wpfScrapingRegister
 
         private JavCollection colJavCheck;
         private JavData dispinfoSelectJavCheck = null;
+        private Jav2Data dispinfoSelectJav2 = null;
 
         private BjCollection colBj;
         private BjData dispinfoSelectBjData = null;
@@ -93,6 +95,8 @@ namespace wpfScrapingRegister
 
                 dispctrlDataGrid = DATAGRID_JAV;
                 SwitchDataGrid(dispctrlDataGrid);
+
+                this.Title = "ScrapingRegister " + colJav.GetIsSelectionZero();
             }
             catch(Exception ex)
             {
@@ -145,6 +149,7 @@ namespace wpfScrapingRegister
             if (dgridJav.SelectedItem == null)
                 return;
 
+            this.Title = "ScrapingRegister " + colJav.GetIsSelectionZero();
             dispinfoSelectJavData = (JavData)dgridJav.SelectedItem;
 
             txtStatusBar.Text = dispinfoSelectJavData.Title;
@@ -204,10 +209,13 @@ namespace wpfScrapingRegister
             {
                 imageThumbnail.Source = this.GetImageStream(pathname);
 
-                BitmapImage bitmapImage = (BitmapImage)imageThumbnail.Source;
-                imageThumbnail.Width = lgridMain.ColumnDefinitions[1].ActualWidth;
-                imageThumbnail.Height = (imageThumbnail.Width / bitmapImage.Width) * bitmapImage.Height;
-                imageThumbnail.Stretch = Stretch.Uniform;
+                if (imageThumbnail.Source != null)
+                {
+                    BitmapImage bitmapImage = (BitmapImage)imageThumbnail.Source;
+                    imageThumbnail.Width = lgridMain.ColumnDefinitions[1].ActualWidth;
+                    imageThumbnail.Height = (imageThumbnail.Width / bitmapImage.Width) * bitmapImage.Height;
+                    imageThumbnail.Stretch = Stretch.Uniform;
+                }
             }
 
             if (dispinfoSelectJavData.Package.IndexOf("http", StringComparison.Ordinal) == 0)
@@ -251,11 +259,26 @@ namespace wpfScrapingRegister
                 return null;
 
             BitmapImage bitmap = new BitmapImage();
-            var stream = System.IO.File.OpenRead(myImagePathname);
-            bitmap.BeginInit();
-            bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.StreamSource = stream;
-            bitmap.EndInit();
+            FileStream stream = null;
+            try
+            {
+                stream = System.IO.File.OpenRead(myImagePathname);
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.StreamSource = stream;
+                bitmap.EndInit();
+            }
+            // このピクセル形式に関する情報は見つかりませんでした。
+            catch (NotSupportedException ex)
+            {
+                Debug.Write(ex);
+                return null;
+            }
+            catch(IOException ex)
+            {
+                Debug.Write(ex);
+                return null;
+            }
             stream.Close();
             stream.Dispose();
             int width = bitmap.PixelWidth;
@@ -403,13 +426,13 @@ namespace wpfScrapingRegister
 
         private void dgridJav2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Jav2Data data = (Jav2Data)dgridJav2.SelectedItem;
+            dispinfoSelectJav2 = (Jav2Data)dgridJav2.SelectedItem;
 
-            if (data == null)
+            if (dispinfoSelectJav2 == null)
                 return;
 
-            txtJav2DownloadLinks.Text = common.DonwloadLinks.GetTargetOnly(data.DownloadLinks);
-            txtJav2Detail.Text = data.FilesInfo;
+            txtJav2DownloadLinks.Text = common.DonwloadLinks.GetTargetOnly(dispinfoSelectJav2.DownloadLinks);
+            txtJav2Detail.Text = dispinfoSelectJav2.FilesInfo;
         }
 
         private void btnJav2Search_Click(object sender, RoutedEventArgs e)
@@ -590,6 +613,39 @@ namespace wpfScrapingRegister
             Jav2Data data = (Jav2Data)dgridJav2.SelectedItem;
 
             CopyClipboard(data.Url);
+        }
+
+        private void btnJav2Url_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(dispinfoSelectJav2.Url);
+        }
+
+        private void btnJumpUrl_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(dispinfoSelectJavData.Url);
+        }
+
+        private void btnPaste_Click(object sender, RoutedEventArgs e)
+        {
+            IDataObject data = Clipboard.GetDataObject();
+
+            try
+            {
+                if (data.GetDataPresent(DataFormats.Text))
+                {
+                    string ClipboardText = (string)data.GetData(DataFormats.Text);
+                    // クリップボードのテキストを改行毎に配列に設定
+                    char[] separator = new char[] { '\r', '\n' };
+                    string[] ClipBoardList = ClipboardText.Split(separator);
+
+                    txtRegisterDownloadFiles.Text = string.Join(" ", ClipBoardList);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
     }
 }
