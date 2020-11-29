@@ -40,6 +40,9 @@ namespace wpfScrapingRegister
         private JavData dispinfoSelectJavData = null;
         private JavDao javDao = null;
 
+        private string[] dispinfoThumbnailsArray = null;
+        private int dispinfoCurrentThumbnail = 0;
+
         private JavCollection colJavCheck;
         private JavData dispinfoSelectJavCheck = null;
         private Jav2Data dispinfoSelectJav2 = null;
@@ -187,21 +190,18 @@ namespace wpfScrapingRegister
             }
 
             string filname = "";
-            string[] arrThumbnail = dispinfoSelectJavData.Thumbnail.Split(' ');
+            dispinfoThumbnailsArray = dispinfoSelectJavData.Thumbnail.Split(' ');
 
-            if (arrThumbnail.Length > 0)
+            if (dispinfoThumbnailsArray.Length > 0)
             {
+                TxtbThumbnailCount.Text = Convert.ToString(dispinfoThumbnailsArray.Length);
                 if (dispinfoSelectJavData.Thumbnail.IndexOf("http", StringComparison.Ordinal) == 0)
-                    filname = System.IO.Path.GetFileName(arrThumbnail[0]);
+                    filname = System.IO.Path.GetFileName(dispinfoThumbnailsArray[0]);
                 else
-                    filname = arrThumbnail[0];
+                    filname = dispinfoThumbnailsArray[0];
+
+                dispinfoCurrentThumbnail = 0;
             }
-            /*
-            if (dispinfoSelectJavData.Thumbnail.IndexOf("http") == 0)
-                filname = System.IO.Path.GetFileName(dispinfoSelectJavData.Thumbnail);
-            else
-                filname = dispinfoSelectJavData.Thumbnail;
-             */
 
             string pathname = System.IO.Path.Combine(ImagePath, filname);
 
@@ -646,6 +646,84 @@ namespace wpfScrapingRegister
                 MessageBox.Show(ex.Message);
             }
 
+        }
+
+        private void btnBeforeThumbnail_Click(object sender, RoutedEventArgs e)
+        {
+            if (dispinfoThumbnailsArray == null)
+                return;
+
+            if (dispinfoThumbnailsArray.Length <= 1)
+                return;
+
+            if (dispinfoCurrentThumbnail == 0)
+                return;
+
+            string filname = "";
+
+            if (dispinfoThumbnailsArray.Length > 1)
+            {
+                dispinfoCurrentThumbnail = dispinfoCurrentThumbnail - 1;
+                if (dispinfoSelectJavData.Thumbnail.IndexOf("http", StringComparison.Ordinal) == 0)
+                    filname = System.IO.Path.GetFileName(dispinfoThumbnailsArray[dispinfoCurrentThumbnail]);
+                else
+                    filname = dispinfoThumbnailsArray[dispinfoCurrentThumbnail];
+
+            }
+
+            string pathname = System.IO.Path.Combine(ImagePath, filname);
+
+            if (System.IO.File.Exists(pathname))
+            {
+                imageThumbnail.Source = this.GetImageStream(pathname);
+
+                if (imageThumbnail.Source != null)
+                {
+                    BitmapImage bitmapImage = (BitmapImage)imageThumbnail.Source;
+                    imageThumbnail.Width = lgridMain.ColumnDefinitions[1].ActualWidth;
+                    imageThumbnail.Height = (imageThumbnail.Width / bitmapImage.Width) * bitmapImage.Height;
+                    imageThumbnail.Stretch = Stretch.Uniform;
+                }
+            }
+        }
+
+        private void btnNextThumbnail_Click(object sender, RoutedEventArgs e)
+        {
+            if (dispinfoThumbnailsArray == null)
+                return;
+
+            if (dispinfoThumbnailsArray.Length <= 1)
+                return;
+
+            if (dispinfoCurrentThumbnail + 1 >= dispinfoThumbnailsArray.Length)
+                return;
+
+            string filname = "";
+
+            if (dispinfoThumbnailsArray.Length > 1)
+            {
+                dispinfoCurrentThumbnail = dispinfoCurrentThumbnail + 1;
+                if (dispinfoSelectJavData.Thumbnail.IndexOf("http", StringComparison.Ordinal) == 0)
+                    filname = Path.GetFileName(dispinfoThumbnailsArray[dispinfoCurrentThumbnail]);
+                else
+                    filname = dispinfoThumbnailsArray[dispinfoCurrentThumbnail];
+
+            }
+
+            string pathname = Path.Combine(ImagePath, filname);
+
+            if (File.Exists(pathname))
+            {
+                imageThumbnail.Source = this.GetImageStream(pathname);
+
+                if (imageThumbnail.Source != null)
+                {
+                    BitmapImage bitmapImage = (BitmapImage)imageThumbnail.Source;
+                    imageThumbnail.Width = lgridMain.ColumnDefinitions[1].ActualWidth;
+                    imageThumbnail.Height = (imageThumbnail.Width / bitmapImage.Width) * bitmapImage.Height;
+                    imageThumbnail.Stretch = Stretch.Uniform;
+                }
+            }
         }
     }
 }

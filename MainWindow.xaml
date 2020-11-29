@@ -60,6 +60,7 @@
                     <ColumnDefinition Width="270" />
                     <ColumnDefinition Width="230" />
                     <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="120" />
                 </Grid.ColumnDefinitions>
                 <Button Name="btnSwitch" Content="Switch" Width="50" Margin="3,3,3,3" HorizontalAlignment="Left" Click="btnSwitch_Click" />
                 <TextBox Name="txtSearchJav" Width="180" Margin="3,3,3,3" FontSize="18" Grid.Column="1" HorizontalAlignment="Left" />
@@ -67,11 +68,16 @@
                 <Button Name="btnSearchJav" Width="50" Margin="200,3,3,3" HorizontalAlignment="Left" Grid.Column="1" Click="btnSearchJav_Click" />
                 <Button Name="btnFilterNoTarget" Content="未" Width="50" Margin="5,5,5,5" HorizontalAlignment="Left" Grid.Column="2" Click="OnClickFilterSelection" />
                 <Button Name="btnFilterTarget" Content="対象" Width="50" Margin="60,5,5,5" HorizontalAlignment="Left" Grid.Column="2" Click="OnClickFilterSelection" />
-                <Button Name="btnFilterHd" Content="HD" Width="50" Margin="110,5,5,5" HorizontalAlignment="Left" Grid.Column="2" Click="OnClickFilterSelection" />
+                <Button Name="btnFilterHd" Content="HD" Width="50" Margin="109,5,0,5" HorizontalAlignment="Left" Grid.Column="2" Click="OnClickFilterSelection" />
                 <Button Name="btnFilterDone" Content="済" Width="50" Margin="160,5,5,5" HorizontalAlignment="Left" Grid.Column="2" Click="OnClickFilterSelection" />
                 <ComboBox Name="cmbLargeRating"
                           SelectedValue="{Binding Path=Rating}" ItemsSource="{StaticResource intCollection}"
                           Margin="5,3,3,5" FontSize="24" Grid.Column="3" SelectionChanged="OnChangedRating" />
+                <WrapPanel Grid.Column="4">
+                    <Button Name="btnBeforeThumbnail" Content="前" Width="40" Margin="5,5,5,5" HorizontalAlignment="Left" Grid.Column="4" Click="btnBeforeThumbnail_Click" />
+                    <TextBlock Name="TxtbThumbnailCount" VerticalAlignment="Bottom" FontSize="16" />
+                    <Button Name="btnNextThumbnail" Content="次" Width="40" Margin="5,5,5,5" HorizontalAlignment="Left" Grid.Column="4" Click="btnNextThumbnail_Click" />
+                </WrapPanel>
             </Grid>
             <Grid Grid.Row="1">
                 <DataGrid HeadersVisibility="Row"  Name="dgridJav" AutoGenerateColumns="False"
