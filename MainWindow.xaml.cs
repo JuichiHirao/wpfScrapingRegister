@@ -238,9 +238,11 @@ namespace wpfScrapingRegister
             if (txtRegisterActress.Text.Length > 0)
             {
                 AvContentsDao contentsDao = new AvContentsDao();
+                char splitChar = Actress.GetSplitChar(txtRegisterActress.Text);
+                string[] arrActress = txtRegisterActress.Text.Split(splitChar);
                 try
                 {
-                    txtStatusBar.Text = Actress.GetEvaluation(txtRegisterActress.Text, contentsDao, dockerMySqlConn);
+                    txtStatusBar.Text = Actress.GetEvaluation(String.Join(",", arrActress), contentsDao, dockerMySqlConn);
                 }
                 catch (MySqlException emysql)
                 {
