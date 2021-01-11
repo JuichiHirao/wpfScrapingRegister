@@ -321,7 +321,9 @@
                 <TextBox Name="txtDownloadLinks" FontSize="18" TextWrapping="Wrap" />
             </WrapPanel>
             <WrapPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="4">
-                <Button Name="btnCopyText" Content="CP" Click="btnCopyText_Click"/>
+                <Button Name="btnCopyTextUploaded" Content="UCP" Margin="5,0,5,0" Click="btnCopyTextUploaded_Click"/>
+                <Button Name="btnCopyTextAlfafile" Content="ACP" Margin="5,0,5,0" Click="btnCopyTextAlfafile_Click"/>
+                <Button Name="btnCopyText" Content="CP" Margin="5,0,5,0" Click="btnCopyText_Click"/>
                 <TextBox Name="txtJav2DownloadLinks" TextWrapping="Wrap" />
                 <TextBox Name="txtJav2Detail" TextWrapping="Wrap" />
             </WrapPanel>

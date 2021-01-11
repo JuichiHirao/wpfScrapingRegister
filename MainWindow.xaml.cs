@@ -474,6 +474,40 @@ namespace wpfScrapingRegister
             CopyClipboard(txtJav2DownloadLinks.Text);
         }
 
+        private void btnCopyTextUploaded_Click(object sender, RoutedEventArgs e)
+        {
+            btnCopyTextCommon("uploaded.net");
+        }
+        private void btnCopyTextAlfafile_Click(object sender, RoutedEventArgs e)
+        {
+            btnCopyTextCommon("alfafile.net");
+        }
+
+        private void btnCopyTextCommon(string myTargetSiteName)
+        {
+            string allLinks = txtJav2DownloadLinks.Text;
+            string targetLinks = "";
+
+            foreach (string link in allLinks.Split(' '))
+            {
+                if (String.IsNullOrEmpty(myTargetSiteName))
+                {
+                    targetLinks = targetLinks + " " + link;
+                    continue;
+                }
+
+                if (link.IndexOf(myTargetSiteName, StringComparison.Ordinal) >= 0)
+                    targetLinks = targetLinks + " " + link;
+            }
+
+            if (String.IsNullOrEmpty(targetLinks.Trim()))
+                return;
+
+            UpdateJavDownloadFiles(targetLinks);
+
+            CopyClipboard(targetLinks);
+        }
+
         /// <summary>
         /// scraping.jav.download_filesの列を更新する
         /// </summary>
@@ -482,6 +516,7 @@ namespace wpfScrapingRegister
         {
             string filesText = common.DonwloadLinks.GetFilesText(myDownloadLinks);
             javDao.UpdateDownloadFiles(dispinfoSelectJavData, filesText);
+            txtRegisterDownloadFiles.Text = filesText;
         }
 
         private void CopyClipboard(string myText)
